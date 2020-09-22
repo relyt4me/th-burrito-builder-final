@@ -24,7 +24,8 @@ class OrderForm extends Component {
     e.preventDefault();
     const { name, ingredients } = this.state;
     if (name && ingredients.length) {
-      // submitOrder
+      this.setState({ invalidOrder: false });
+      this.props.addNewOrder(name, ingredients);
     } else {
       this.setState({ invalidOrder: true });
     }
