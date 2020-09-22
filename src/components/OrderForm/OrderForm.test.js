@@ -61,4 +61,29 @@ describe('OrderForm Component', () => {
     expect(mockAddNewOrder).toBeCalledTimes(1);
     expect(mockAddNewOrder).toBeCalledWith('Tyler', ['beans', 'sofritas']);
   });
+
+  it('should not allow an added order when an order is incomplete', () => {
+    const mockAddNewOrder = jest.fn();
+    render(<OrderForm addNewOrder={mockAddNewOrder} />);
+
+    const beansButton = screen.getByRole('button', { name: 'beans' });
+    const sofritasButton = screen.getByRole('button', { name: 'sofritas' });
+    const nameInput = screen.getByPlaceholderText('Name');
+    const submitButton = screen.getByRole('button', { name: 'Submit Order' });
+
+    fireEvent.change(nameInput, { target: { value: 'Tyler' } });
+    fireEvent.click(submitButton);
+
+    const invalidMessage = screen.getByText('An order must contain ingredients and a name');
+
+    expect(invalidMessage).toBeInTheDocument();
+
+    fireEvent.click(beansButton);
+    fireEvent.click(sofritasButton);
+    fireEvent.change(nameInput, { target: { value: '' } });
+    fireEvent.click(submitButton);
+
+    expect(invalidMessage).toBeInTheDocument();
+    expect(mockAddNewOrder).toBeCalledTimes(0);
+  });
 });
