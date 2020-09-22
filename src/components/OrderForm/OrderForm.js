@@ -20,16 +20,16 @@ class OrderForm extends Component {
     this.setState({ name: e.target.value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const { name, ingredients } = this.state;
     if (name && ingredients.length) {
       this.setState({ invalidOrder: false });
       this.props.addNewOrder(name, ingredients);
+      await this.clearInputs();
     } else {
       this.setState({ invalidOrder: true });
     }
-    this.clearInputs();
   };
 
   clearInputs = () => {
