@@ -29,4 +29,18 @@ describe('OrderForm Component', () => {
 
     expect(nameInput.value).toBe('Tyler');
   });
+
+  it('should update the order as ingredients are added', () => {
+    render(<OrderForm />);
+
+    const beansButton = screen.getByRole('button', { name: 'beans' });
+    const sofritasButton = screen.getByRole('button', { name: 'sofritas' });
+
+    fireEvent.click(beansButton);
+    fireEvent.click(sofritasButton);
+
+    const orderOutput = screen.getByText('Order: beans, sofritas');
+
+    expect(orderOutput).toBeInTheDocument();
+  });
 });
