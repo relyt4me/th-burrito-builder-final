@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from './App';
-import { getOrders, addOrder } from '../../apiCalls';
+import { getOrders, addOrder, deleteOrder } from '../../apiCalls';
 jest.mock('../../apiCalls.js');
 
 describe('OrderForm Component', () => {
@@ -61,5 +61,18 @@ describe('OrderForm Component', () => {
     const tylerCardTitle = await waitFor(() => screen.getByRole('heading', { name: 'Tyler' }));
 
     expect(tylerCardTitle).toBeInTheDocument();
+  });
+
+  it('should remove an order when the delete button is clicked', async () => {
+    getOrders.mockResolvedValueOnce(mockOrders);
+    deleteOrder.mockResolvedValueOnce({});
+
+    render(<App />);
+
+    const patDeleteButton = await waitFor(() => screen.getByTestId('delete 1'));
+
+    fireEvent.click(patDeleteButton);
+
+    await waitFor(() => expect(screen.queryByText('Pat')).not.toBeInTheDocument());
   });
 });
