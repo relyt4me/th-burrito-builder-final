@@ -1,0 +1,16 @@
+.buttons-wrapper {
+  padding: 1vh 20vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+.buttons-wrapper button {
+  padding: 0.5em;
+  border-radius: 0.5em;
+  font-size: 1.1em;
+}
+
+.on-order {
+  background-color: cornflowerblue;
+}
