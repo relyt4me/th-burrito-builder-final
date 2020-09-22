@@ -7,6 +7,7 @@ class OrderForm extends Component {
     this.state = {
       name: '',
       ingredients: [],
+      invalidOrder: false,
     };
   }
 
@@ -21,6 +22,12 @@ class OrderForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { name, ingredients } = this.state;
+    if (name && ingredients.length) {
+      // submitOrder
+    } else {
+      this.setState({ invalidOrder: true });
+    }
     this.clearInputs();
   };
 
@@ -43,7 +50,7 @@ class OrderForm extends Component {
         <input type='text' placeholder='Name' name='name' value={this.state.name} onChange={(e) => this.handleNameChange(e)} />
 
         {ingredientButtons}
-
+        {this.state.invalidOrder && <p>An order must contain ingredients and a name</p>}
         <p>Order: {this.state.ingredients.join(', ') || 'Nothing selected'}</p>
 
         <button onClick={(e) => this.handleSubmit(e)}>Submit Order</button>
