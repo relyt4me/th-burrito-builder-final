@@ -43,4 +43,22 @@ describe('OrderForm Component', () => {
 
     expect(orderOutput).toBeInTheDocument();
   });
+
+  it('should fire addNewOrder when form is filled out and submitted', () => {
+    const mockAddNewOrder = jest.fn();
+    render(<OrderForm addNewOrder={mockAddNewOrder} />);
+
+    const beansButton = screen.getByRole('button', { name: 'beans' });
+    const sofritasButton = screen.getByRole('button', { name: 'sofritas' });
+    const nameInput = screen.getByPlaceholderText('Name');
+    const submitButton = screen.getByRole('button', { name: 'Submit Order' });
+
+    fireEvent.click(beansButton);
+    fireEvent.click(sofritasButton);
+    fireEvent.change(nameInput, { target: { value: 'Tyler' } });
+    fireEvent.click(submitButton);
+
+    expect(mockAddNewOrder).toBeCalledTimes(1);
+    expect(mockAddNewOrder).toBeCalledWith('Tyler', ['beans', 'sofritas']);
+  });
 });
