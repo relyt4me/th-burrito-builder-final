@@ -44,6 +44,21 @@ describe('OrderForm Component', () => {
     expect(orderOutput).toBeInTheDocument();
   });
 
+  it('should not add an ingredient more than once', () => {
+    render(<OrderForm />);
+
+    const beansButton = screen.getByRole('button', { name: 'beans' });
+    const sofritasButton = screen.getByRole('button', { name: 'sofritas' });
+
+    fireEvent.click(beansButton);
+    fireEvent.click(sofritasButton);
+    fireEvent.click(sofritasButton);
+
+    const orderOutput = screen.getByText('Order: beans, sofritas');
+
+    expect(orderOutput).toBeInTheDocument();
+  });
+
   it('should fire addNewOrder when form is filled out and submitted', () => {
     const mockAddNewOrder = jest.fn();
     render(<OrderForm addNewOrder={mockAddNewOrder} />);
